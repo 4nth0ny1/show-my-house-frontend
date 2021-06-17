@@ -1,1 +1,10 @@
-console.log('hello world in the console')
+document.addEventListener("DOMContentLoaded", () => {
+    HomeApi.fetchHomes()
+
+
+
+
+
+
+})
+
