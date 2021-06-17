@@ -7,14 +7,7 @@ class HomeApi {
         .then(json => json.forEach(home => {
             new Home(home)
         }))
-
     }
-
-
-
-
-
-
 }
 
 

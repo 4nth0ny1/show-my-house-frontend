@@ -10,14 +10,4 @@ class Home {
         Home.all.push(this) 
     }
 
-    
-
-
-
-
-
-
-
-
-
 }
