@@ -24,6 +24,19 @@ class Comment {
         div.innerHTML = `
             <li>${this.content}</li>
         `
+
+        const deleteButton = document.createElement('button')
+        deleteButton.classList.add('delete-comment-button')
+        deleteButton.dataset.commentId = this.id 
+        deleteButton.innerText = "Delete Comment"
+
+        const editButton = document.createElement('button')
+        editButton.classList.add('edit-comment-button')
+        editButton.dataset.commentId = this.id 
+        editButton.innerText = "Edit Comment"
+
+        div.appendChild(editButton)
+        div.appendChild(deleteButton)
         homeDiv.appendChild(div)
     }
 
@@ -37,6 +50,8 @@ class Comment {
         homeDiv.appendChild(button)
     
     }
+
+
   
 
 }
