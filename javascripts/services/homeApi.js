@@ -10,6 +10,47 @@ class HomeApi {
         }))
     }
 
+    static submitHome(event){
+        event.preventDefault()
+        const form = document.querySelector('#new-home-form')
+        const configObj = {
+            method: "POST", 
+            headers: {
+                "Content-type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                home: {
+                    address: form.querySelector('#home-address-input').value,
+                    description: form.querySelector('#home-description-input').value,
+                    price: form.querySelector('#home-price-input').value
+                }
+            })
+        }
+
+        fetch(homeURL, configObj)
+        .then(res => res.json())
+        .then(data => {
+            let newHome = new Home(data)  
+            newHome.render()
+        })
+
+        form.reset()
+
+    }
+
+    static deleteHome(event){
+        const homeId = event.target.dataset.homeId
+
+        document.getElementById(`home-${homeId}`).remove()
+
+        fetch(`${homeURL}/${homeId}`, {
+            method: "DELETE"
+        })
+        
+    }
+  
+
 
 }
 

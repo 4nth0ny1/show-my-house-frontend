@@ -24,19 +24,32 @@ class Home {
             <h1>${this.price}</h1>
         `
 
+        const deleteButton = document.createElement('button')
+        deleteButton.classList.add('delete-home-button')
+        deleteButton.dataset.homeId = this.id 
+        deleteButton.innerText = "Delete Home"
+
+        const editButton = document.createElement('button')
+        editButton.classList.add('edit-home-button')
+        editButton.dataset.homeId = this.id 
+        editButton.innerText = "Edit Home"
+
         const button = document.createElement('button')
         button.dataset.homeId = this.id   //dataset allows you to use the value in another function instead of line 19 where it can only be used for css
         button.innerText = "View Comments"
         div.appendChild(button)
         homesDiv.appendChild(div)
 
+        div.appendChild(editButton)
+        div.appendChild(deleteButton)
+
         button.addEventListener('click', Comment.handleViewCommentClick)
+        deleteButton.addEventListener('click', HomeApi.deleteHome)
 
     }
 
 
-  
-    
+
 
 
 }
