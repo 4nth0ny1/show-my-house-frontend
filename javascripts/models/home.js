@@ -54,7 +54,6 @@ class Home {
 
     static editHome(event){
         const homeId = event.target.dataset.homeId
-        
         const home =  Home.findById(parseInt(homeId))
         home.renderEditForm()
     }

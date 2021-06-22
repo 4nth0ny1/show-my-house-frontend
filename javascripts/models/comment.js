@@ -48,7 +48,6 @@ class Comment {
         const commentId = event.target.dataset.commentId
         const comment =  Comment.findCommentById(parseInt(commentId))
         comment.renderCommentEditForm()
-
     }
 
     renderCommentEditForm(){
@@ -85,7 +84,14 @@ class Comment {
         const homeDiv = document.querySelector(`#home-${homeId}`)
         homeDiv.appendChild(button)
         
-        button.addEventListener('click', Comment.renderNewCommentForm)
+        button.addEventListener('click', Comment.newComment)
+        
+    }
+
+    static newComment(event){
+        const commentId = event.target.dataset.commentId
+        const comment =  Comment.findCommentById(parseInt(commentId))
+        comment.renderNewCommentForm()
     }
 
     renderNewCommentForm(){
@@ -100,7 +106,7 @@ class Comment {
          </form>
          <br>
         `
- 
+    
         const formContainer = document.createElement('div')
         formContainer.classList.add('new-comment-form')
         formContainer.innerHTML = form
