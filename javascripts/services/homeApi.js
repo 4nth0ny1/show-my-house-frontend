@@ -39,6 +39,41 @@ class HomeApi {
 
     }
 
+    static submitEdit(event){
+        event.preventDefault()
+        const homeId = event.target.dataset.homeId
+
+        const container = document.querySelector(`#home-${homeId}`)
+        const form = container.querySelector('.edit-home-form')
+
+        const configObj = {
+            method: "PATCH", 
+            headers: {
+                "Content-type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                home: {
+                    address: form.querySelector('#home-address-input').value,
+                    description: form.querySelector('#home-description-input').value,
+                    price: form.querySelector('#home-price-input').value
+                }
+            })
+        }
+
+        fetch(`${homeURL}/${homeId}`, configObj)
+        .then(res => res.json())
+        .then(data => {
+            const home = Home.findById(parseInt(data.id))
+            home.description = data.description
+            home.address = data.address
+            home.price = data.price
+            home.reRender()
+        })
+
+        form.reset()
+    }
+
     static deleteHome(event){
         const homeId = event.target.dataset.homeId
 
@@ -49,6 +84,8 @@ class HomeApi {
         })
         
     }
+
+    
   
 
 
