@@ -62,7 +62,7 @@ class Home {
     renderEditForm(){
        const container = document.getElementById(`home-${this.id}`)
        const homeInfo = container.querySelector('.home-info')
-
+        debugger
        homeInfo.classList.add('d-none')
 
        const form = `
@@ -80,15 +80,10 @@ class Home {
 
        const formContainer = document.createElement('div')
        formContainer.classList.add('edit-form-container')
-
        formContainer.innerHTML = form
-
        container.prepend(formContainer)
-
        container.querySelector('.edit-home-button').classList.add('d-none')
-       
        container.querySelector('.edit-home-form').addEventListener('submit', HomeApi.submitEdit)
-      
     }
 
     reRender(){

@@ -9,20 +9,21 @@ class Comment {
         Comment.all.push(this)
     }
 
-
+    static findCommentById(commentId){
+        return Comment.all.find(comment => comment.id === commentId)
+    }
 
     render(){
         if (document.querySelector(`#comment-${this.id}`)){
             return
         }
         const homeDiv = document.getElementById(`home-${this.homeId}`)
-       
         const div = document.createElement('div')
         
         div.id = `comment-${this.id}`
         div.classList.add('comment')
         div.innerHTML = `
-            <li>${this.content}</li>
+            <li class="comment-info">${this.content}</li>
         `
 
         const deleteButton = document.createElement('button')
@@ -38,7 +39,39 @@ class Comment {
         div.appendChild(editButton)
         div.appendChild(deleteButton)
         homeDiv.appendChild(div)
+
+        editButton.addEventListener('click', Comment.editComment)
     }
+
+    static editComment(event){
+        const commentId = event.target.dataset.commentId
+        const comment =  Comment.findCommentById(parseInt(commentId))
+        comment.renderCommentEditForm()
+
+    }
+
+    renderCommentEditForm(){
+        const container = document.getElementById(`comment-${this.id}`)
+        const commentInfo = container.querySelector('.comment-info')
+       
+        commentInfo.classList.add('d-none')
+        
+        const form = `
+         <form data-comment-id='${this.id}' class="edit-comment-form">
+             <label for="content">Content</label>
+             <input type="text" id="comment-content-input" name="content" value="${this.content}">
+             <input type="submit">
+         </form>
+         <br>
+        `
+ 
+        const formContainer = document.createElement('div')
+        formContainer.classList.add('edit-form-container')
+        formContainer.innerHTML = form
+        container.prepend(formContainer)
+        container.querySelector('.edit-comment-button').classList.add('d-none')
+        container.querySelector('.edit-comment-form').addEventListener('submit', CommentApi.submitCommentEdit)
+     }
 
     static handleViewCommentClick(e){
         const homeId = e.target.dataset.homeId
