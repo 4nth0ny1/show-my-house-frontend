@@ -11,7 +11,7 @@ class CommentApi {
 
     static submitComment(event){
         event.preventDefault()
-        const form = document.querySelector('#new-comment-form')
+        const form = event.target
         const configObj = {
             method: "POST", 
             headers: {
@@ -20,8 +20,8 @@ class CommentApi {
             },
             body: JSON.stringify({
                 comment: {
+                    home_id: form.querySelector('#comment-home-id').value,
                     content: form.querySelector('#comment-content-input').value
-                    // do i need to add the home_id 
                 }
             })
         }
@@ -31,6 +31,9 @@ class CommentApi {
         .then(data => {
             let newComment = new Comment(data)  
             newComment.render()
+            const homeContainer = document.querySelector(`#home-${newComment.homeId}`)
+            homeContainer.querySelector('.new-comment-form-container').remove()
+            homeContainer.querySelector('.add-comment-button').classList.remove('d-none')
         })
 
         form.reset()

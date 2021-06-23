@@ -90,16 +90,15 @@ class Comment {
 
     static newComment(event) {
         const homeId = event.target.dataset.homeId
-        const comment = Comment.findCommentById(parseInt(homeId))
-        comment.renderNewCommentForm()
+        Comment.renderNewCommentForm(homeId)
     }
 
-    renderNewCommentForm() {
-        const container = document.getElementById(`comment-${this.id}`)
-        const commentInfo = container.querySelector('.comment-info')
+    static renderNewCommentForm(homeId) {
+        const container = document.getElementById(`home-${homeId}`)
 
         const form = `
-         <form data-comment-id='${this.id}' class="new-comment-form">
+         <form class="new-comment-form">
+             <input type="hidden" id="comment-home-id" value="${homeId}">
              <label for="content">Content</label>
              <input type="text" id="comment-content-input" name="content">
              <input type="submit">
@@ -108,40 +107,18 @@ class Comment {
         `
 
         const formContainer = document.createElement('div')
-        formContainer.classList.add('new-comment-form')
+        formContainer.classList.add('new-comment-form-container')
         formContainer.innerHTML = form
         container.append(formContainer)
         container.querySelector('.add-comment-button').classList.add('d-none')
         container.querySelector('.new-comment-form').addEventListener('submit', CommentApi.submitComment)
-        
-        container.querySelector('.new-comment-form').addEventListener('submit', Comment.renderNewComment)
-    }
-
-    renderNewComment(event) {
-        if (document.querySelector(`#comment-${this.id}`)) {
-            return
-        }
-        const homeDiv = document.getElementById(`home-${this.homeId}`)
-        const div = document.createElement('div')
-
-        div.id = `comment-${this.id}`
-        div.classList.add('comment')
-        div.innerHTML = `
-            <li class="comment-info">${this.content}</li>
-        `
-        homeDiv.appendChild(div)
     }
 
     reRender() {
-        if (document.querySelector(`#comment-${this.id}`)) {
-            return
-        }
         const homeDiv = document.getElementById(`home-${this.homeId}`)
-        const div = document.createElement('div')
+        const commentDiv = homeDiv.querySelector(`#comment-${this.id}`)
 
-        div.id = `comment-${this.id}`
-        div.classList.add('comment')
-        div.innerHTML = `
+        commentDiv.innerHTML = `
             <li class="comment-info">${this.content}</li>
         `
 
@@ -155,9 +132,8 @@ class Comment {
         editButton.dataset.commentId = this.id
         editButton.innerText = "Edit Comment"
 
-        div.appendChild(editButton)
-        div.appendChild(deleteButton)
-        homeDiv.appendChild(div)
+        commentDiv.appendChild(editButton)
+        commentDiv.appendChild(deleteButton)
 
         deleteButton.addEventListener('click', CommentApi.deleteComment)
         editButton.addEventListener('click', Comment.editComment)
